@@ -5,4 +5,4 @@ Keyboard Tilt Compensation
 
 2. Right Click "run.ps1"
 
-3. Select "Run by powershell"
+3. Select "Run with powershell"
