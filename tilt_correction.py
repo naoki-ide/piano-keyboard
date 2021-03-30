@@ -3,10 +3,12 @@
 import argparse
 
 import cv2
-import matplotlib.pyplot as plt
+import moviepy.editor as mp
+#import matplotlib.pyplot as plt
 #get_ipython().run_line_magic('matplotlib', 'inline')
 import numpy as np
 import time
+import subprocess
 from tqdm import tqdm
 
 from IPython import embed
@@ -88,8 +90,8 @@ if __name__ == "__main__":
     center = [horizontal_center, vertical_center]
     
     fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-    x_writer = cv2.VideoWriter(output_file, fmt, fps, size)
-    b_writer = cv2.VideoWriter(output_file[:-4] + "_b.mp4", fmt, fps, size, 0)
+    x_writer = cv2.VideoWriter("tmp.mp4", fmt, fps, size)
+    #b_writer = cv2.VideoWriter(output_file[:-4] + "_b.mp4", fmt, fps, size, 0)
     
     bar = tqdm(total = num_frame)
 
@@ -130,7 +132,7 @@ if __name__ == "__main__":
         bar.update(1)
         #print("%.3f, %.3f, %.3f, %.3f, %.3f, %.3f" % (t2-t1, t3-t2, t4-t3, t5-t4, t6-t5, t7-t6))
     cap.release()    
-    b_writer.release()
+    #b_writer.release()
     x_writer.release()
     print(time.time() - t0)    
     #plt.plot(vertical_centers)
@@ -139,4 +141,12 @@ if __name__ == "__main__":
     #plt.show()
     #plt.imshow(cv2.cvtColor(b, cv2.COLOR_BGR2RGB)) #cv2.cvtColor(t_img, cv2.COLOR_BGR2RGB))
  
+    a = mp.VideoFileClip(input_file).subclip()
+    a.audio.write_audiofile("tmp.mp3")
+
+    b = mp.VideoFileClip("tmp.mp4").subclip()
+    b.write_videofile(output_file, fps=a.fps, audio="tmp.mp3")
+
+    subprocess.call("rm tmp.mp3", shell=False)
+    subprocess.call("rm tmp.mp4", shell=False)
     exit()
