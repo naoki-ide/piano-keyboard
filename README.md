@@ -15,10 +15,10 @@
 
 ​	1. Sample of an original Image
 
-<img src="img/tilted.png" alt="Tilted Keyboard" style="zoom: 25%;" />
+<img src="img/tilted.png" alt="Tilted Keyboard"  />
 
 
 
 2. The aligned image
 
-<img src="img/aligned.png" alt="Aligned Keyboard" style="zoom:25%;" />
+<img src="img/aligned.png" alt="Aligned Keyboard"  />
