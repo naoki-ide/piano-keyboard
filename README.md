@@ -13,17 +13,31 @@
 
 ## Images
 
-1. Sample of an original Image
+1. Sample of an original frame image
 
+<div align="center">
 <img src="img/tilted.png" alt="Tilted Keyboard" style="zoom: 25%;" />
+</div>
 
 
+2. The aligned frame image
 
-2. The aligned image
-
+<div align="center">
 <img src="img/aligned.png" alt="Aligned Keyboard" style="zoom: 25%;" />
+</div>
 
 ## Videos
 
-[<img src="https://img.youtube.com/vi/KKtS95o1Qlk/0.jpg" alt="Ravel - Gaspard La Nuit, Ondine, View from A Pianist" style="zoom: 33%;" />](https://www.youtube.com/watch?v=KKtS95o1Qlk)
+Click the image to open the youtube
 
+1. Ravel - Ondine
+
+<div align="center">
+[<img src="https://img.youtube.com/vi/KKtS95o1Qlk/0.jpg" alt="Ravel - Gaspard La Nuit, Ondine, View from A Pianist" style="zoom: 33%;" />](https://www.youtube.com/watch?v=KKtS95o1Qlk)
+</div>
+
+2. Ravel - Borodine
+
+<div align="center">
+[<img src="https://img.youtube.com/vi/a8nHeF6jmoU/0.jpg" alt="Ravel - A la maniere de Borodine, View from A Pianist" style="zoom: 33%;" />](https://www.youtube.com/watch?v=a8nHeF6jmoU)
+</div>
