@@ -4,8 +4,6 @@ import argparse
 
 import cv2
 import moviepy.editor as mp
-#import matplotlib.pyplot as plt
-#get_ipython().run_line_magic('matplotlib', 'inline')
 import numpy as np
 import time
 import subprocess
@@ -22,19 +20,9 @@ def transform(x, center, angle, scale):
     return y
 
 def ctrl_angle(x, center):
-    #b = x / 255
     c = 540
-    #a = 60
-    #s = [np.mean(x[c-400:c+50,i*a:(i+1)*a], axis = 1) for i in range(8)]
-    #t = [np.mean(x[c-400:c+50,1920-(i+1)*a:1920-i*a], axis = 1) for i in range(8)]
-    #s1 = np.mean(s)#np.tanh(s)))
-    #t1 = np.mean(t)#np.tanh(t))
-    #bs = np.split(x[c-400:c+50], 32, 1).astype()
-    #s1 = np.mean(bs[:8], axis=(1,2))
-    #t1 = np.mean(bs[-8:], axis=(1,2))
-    #s = np.max(s1) - np.max(t1)
     s = np.mean(x[c-400:c+50,:480]) - np.mean(x[c-400:c+50,-480:])
-    return s / 255#np.tanh(s) 
+    return s / 255
 
 def ctrl_height(x, threshold):
     a = 300
@@ -63,26 +51,43 @@ def get_args():
 
     parser.add_argument("--feedback-coefficient-for-vertical-shift", "-c", type=float, default="0.1")
 
+    parser.add_argument("--audio-disable", action='store_true')
+
     args = parser.parse_args()
     return args
 
 if __name__ == "__main__":
 
+    print("Start Tilt Correction")
     args = get_args()
+
     input_file = args.input_filename
     output_file = args.output_filename
+
     scale = args.zooming_up_scale
     angle = args.initial_rotation_angular
     threshold = args.threshold_for_keyboard
+
     vertical_center = args.vertical_center
     horizontal_center = args.horizontal_center
+
     fc_r = args.feedback_coefficient_for_rotation
     fc_v = args.feedback_coefficient_for_vertical_shift
+
+    audio_disable = args.audio_disable
+
+    print("input_file: %s" % input_file)
+    print("output_file: %s" % output_file)
+    print("zoom_up_scale: %f" % scale)
+    print("initial_angle: %f" % angle)
+    print("audio_disable: %s" % audio_disable)
 
     cap = cv2.VideoCapture(input_file)
     fps = cap.get(cv2.CAP_PROP_FPS)
     num_frame = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    print(fps, num_frame)
+    
+    print("frame per seconds: %f" % fps)
+    print("number of frames: %d" % num_frame)
 
     width = 1920
     height = 1080
@@ -90,9 +95,10 @@ if __name__ == "__main__":
     center = [horizontal_center, vertical_center]
     
     fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-    x_writer = cv2.VideoWriter("tmp.mp4", fmt, fps, size)
-    #b_writer = cv2.VideoWriter(output_file[:-4] + "_b.mp4", fmt, fps, size, 0)
+    color_writer = cv2.VideoWriter(output_file, fmt, fps, size)
+    #gray_writer = cv2.VideoWriter(output_file[:-4] + "_b.mp4", fmt, fps, size, 0)
     
+    print("start tilt correction.")
     bar = tqdm(total = num_frame)
 
     angles = []
@@ -122,31 +128,42 @@ if __name__ == "__main__":
         center = [horizontal_center, vertical_center]
 
         t5 = time.time() 
-        x_writer.write(x)
+        color_writer.write(x)
         
         t6 = time.time() 
-        #b_writer.write(b)
+        #gray_writer.write(b)
         
         t7 = time.time() 
         
         bar.update(1)
         #print("%.3f, %.3f, %.3f, %.3f, %.3f, %.3f" % (t2-t1, t3-t2, t4-t3, t5-t4, t6-t5, t7-t6))
     cap.release()    
-    #b_writer.release()
-    x_writer.release()
-    print(time.time() - t0)    
+    color_writer.release()
+    #gray_writer.release()
+
     #plt.plot(vertical_centers)
     #plt.show()
     #plt.plot(angles)
     #plt.show()
     #plt.imshow(cv2.cvtColor(b, cv2.COLOR_BGR2RGB)) #cv2.cvtColor(t_img, cv2.COLOR_BGR2RGB))
  
-    a = mp.VideoFileClip(input_file).subclip()
-    a.audio.write_audiofile("tmp.mp3")
+    if not audio_disable:
 
-    b = mp.VideoFileClip("tmp.mp4").subclip()
-    b.write_videofile(output_file, fps=a.fps, audio="tmp.mp3")
+        print("start audio extraction.")
 
-    subprocess.call("rm tmp.mp3", shell=False)
-    subprocess.call("rm tmp.mp4", shell=False)
+        subprocess.call("mv " + output_file + " _tmp.mp4", shell=False)
+
+        audio_clip = mp.VideoFileClip(input_file).subclip()
+        audio_clip.audio.write_audiofile("_tmp.mp3", verbose=False)
+
+        print("merge audio and vision.")
+        
+        clip = mp.VideoFileClip("_tmp.mp4").subclip()
+        clip.write_videofile(output_file, fps=audio_clip.fps, audio="_tmp.mp3", verbose=False)
+
+        subprocess.call("rm _tmp.mp3", shell=False)
+        subprocess.call("rm _tmp.mp4", shell=False)
+
+    print("Total process time %.4f [sec]" % time.time() - t0)    
+
     exit()
