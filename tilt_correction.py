@@ -149,21 +149,21 @@ if __name__ == "__main__":
  
     if not audio_disable:
 
-        print("start audio extraction.")
+        print("\nstart audio extraction.")
 
         subprocess.call("mv " + output_file + " _tmp.mp4", shell=False)
 
         audio_clip = mp.VideoFileClip(input_file).subclip()
-        audio_clip.audio.write_audiofile("_tmp.mp3", verbose=False)
+        audio_clip.audio.write_audiofile("_tmp.mp3", verbose=False, logger=None)
 
-        print("merge audio and vision.")
+        print("\nmerge audio and vision.")
         
         clip = mp.VideoFileClip("_tmp.mp4").subclip()
-        clip.write_videofile(output_file, fps=audio_clip.fps, audio="_tmp.mp3", verbose=False)
+        clip.write_videofile(output_file, fps=audio_clip.fps, audio="_tmp.mp3", verbose=False, logger=None)
 
         subprocess.call("rm _tmp.mp3", shell=False)
         subprocess.call("rm _tmp.mp4", shell=False)
 
-    print("Total process time %.4f [sec]" % time.time() - t0)    
+    print("Total process time %.4f [sec]" % (time.time() - t0))    
 
-    exit()
+    #exit()
