@@ -86,7 +86,7 @@ if __name__ == "__main__":
     fps = cap.get(cv2.CAP_PROP_FPS)
     num_frame = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     
-    print("frame per seconds: %f" % fps)
+    print("frame per second: %f" % fps)
     print("number of frames: %d" % num_frame)
 
     width = 1920
