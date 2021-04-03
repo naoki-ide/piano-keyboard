@@ -32,9 +32,8 @@ Click the image to open the youtube
 
 1. Ravel - Ondine
 
-[<img src="https://img.youtube.com/vi/KKtS95o1Qlk/0.jpg" alt="Ravel - Gaspard La Nuit, Ondine, View from A Pianist" style="zoom: 33%;" />](https://www.youtube.com/watch?v=KKtS95o1Qlk)
-
+[<div align="center"><img src="https://img.youtube.com/vi/KKtS95o1Qlk/0.jpg" alt="Ravel - Gaspard La Nuit, Ondine, View from A Pianist" style="zoom: 33%;"/></div>](https://www.youtube.com/watch?v=KKtS95o1Qlk)
 
 2. Ravel - Borodine
 
-[<img src="https://img.youtube.com/vi/a8nHeF6jmoU/0.jpg" alt="Ravel - A la maniere de Borodine, View from A Pianist" style="zoom: 33%;" />](https://www.youtube.com/watch?v=a8nHeF6jmoU)
+[<div align="center"><img src="https://img.youtube.com/vi/a8nHeF6jmoU/0.jpg" alt="Ravel - A la maniere de Borodine, View from A Pianist" style="zoom: 33%;"/></div>](https://www.youtube.com/watch?v=a8nHeF6jmoU)
