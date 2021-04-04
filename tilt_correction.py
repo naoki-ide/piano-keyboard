@@ -8,7 +8,7 @@ import numpy as np
 import time
 import subprocess
 from tqdm import tqdm
-
+import matplotlib.pyplot as plt
 from IPython import embed
 
 
@@ -19,7 +19,7 @@ def transform(x, center, angle, scale):
     y = cv2.warpAffine(x, trans, (width, height))
     return y
 
-def ctrl_angle(x, center):
+def ctrl_angle(x):
     c = 540
     s = np.mean(x[c-400:c+50,:480]) - np.mean(x[c-400:c+50,-480:])
     return s / 255
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     output_file = args.output_filename
 
     scale = args.zooming_up_scale
-    angle = args.initial_rotation_angular
+    initial_angle = args.initial_rotation_angular
     threshold = args.threshold_for_keyboard
 
     vertical_center = args.vertical_center
@@ -76,57 +76,68 @@ if __name__ == "__main__":
 
     audio_disable = args.audio_disable
 
-    print("input_file: %s" % input_file)
-    print("output_file: %s" % output_file)
-    print("zoom_up_scale: %f" % scale)
-    print("initial_angle: %f" % angle)
-    print("audio_disable: %s" % audio_disable)
+    print("- input file: %s" % input_file)
+    print("- output file: %s" % output_file)
+    print("- zoom up scale: %f" % scale)
+    print("- initial angle: %f" % initial_angle)
+    print("- vertical center: %d" % vertical_center)
+    print("- horizontal center: %d" % horizontal_center)
+    print("- audio disable: %s" % audio_disable)
 
     cap = cv2.VideoCapture(input_file)
     fps = cap.get(cv2.CAP_PROP_FPS)
     num_frame = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     
-    print("frame per second: %f" % fps)
-    print("number of frames: %d" % num_frame)
+    print("\nanalyze %s" % input_file)
+    print("- frame per second: %f" % fps)
+    print("- number of frames: %d" % num_frame)
 
     width = 1920
     height = 1080
     size = (width, height)
-    center = [horizontal_center, vertical_center]
     
     fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     color_writer = cv2.VideoWriter(output_file, fmt, fps, size)
     #gray_writer = cv2.VideoWriter(output_file[:-4] + "_b.mp4", fmt, fps, size, 0)
     
-    print("start tilt correction.")
+    print("\nstart tilt correction.")
     bar = tqdm(total = num_frame)
 
+    angle = initial_angle
+    bias = 540 #vertical_center
     angles = []
-    vertical_centers = []
+    biases = []
+    
     t0 = time.time()
     for i in range(num_frame):
         t1 = time.time() 
         _, frame = cap.read()
+        x = np.zeros(frame.shape, dtype=np.uint8)
+        a = max(0, vertical_center - 540)
+        b = min(1080, vertical_center + 540)
+        c = max(0, horizontal_center - 960)
+        d = min(1920, horizontal_center + 960)
+        x[0:b-a,0:d-c,:] = frame[a:b,c:d,:]
         
         t2 = time.time() 
-        x = transform(frame, center, angle, scale)
+        center = [960, bias]
+        x = transform(x, center, angle, scale)
     
         t3 = time.time() 
         gray = cv2.cvtColor(x, cv2.COLOR_BGR2GRAY)
         _, b = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
         
         t4 = time.time()     
-        angle += 20 * ctrl_angle(b, center)
-        vertical_center += int(0.2 * ((ctrl_height(b, threshold) - vertical_center) / scale))
+        angle += 20 * ctrl_angle(b)
+        bias += int(0.2 * ((ctrl_height(b, threshold) - bias) / scale))
         if angle < -45: angle = -45
         if 45 < angle : angle =  45
-        if vertical_center < 100: vertical_center = 100
-        if 980 < vertical_center: vertical_center = 980
+        if bias < 100: bias = 100
+        if 980 < bias: bias = 980
     
         angles.append(angle)
-        vertical_centers.append(vertical_center - 540)
-        center = [horizontal_center, vertical_center]
-
+        biases.append(bias - 540)
+        
         t5 = time.time() 
         color_writer.write(x)
         
@@ -141,10 +152,10 @@ if __name__ == "__main__":
     color_writer.release()
     #gray_writer.release()
 
-    #plt.plot(vertical_centers)
-    #plt.show()
     #plt.plot(angles)
-    #plt.show()
+    #plt.savefig("_ra.png")
+    #plt.plot(biases)
+    #plt.savefig("_vc.png")
     #plt.imshow(cv2.cvtColor(b, cv2.COLOR_BGR2RGB)) #cv2.cvtColor(t_img, cv2.COLOR_BGR2RGB))
  
     if not audio_disable:
@@ -166,4 +177,4 @@ if __name__ == "__main__":
 
     print("Total process time %.4f [sec]" % (time.time() - t0))    
 
-    #exit()
+    exit()
