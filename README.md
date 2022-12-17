@@ -39,17 +39,16 @@ The videos below mix the videos applied this program.
 Click the images to open the youtube video.
 
 1. Ravel - Ondine
-
-[<div align="center"><img src="https://img.youtube.com/vi/KKtS95o1Qlk/0.jpg" alt="Ravel - Gaspard La Nuit, Ondine, View from A Pianist" style="zoom: 33%;"/></div>](https://www.youtube.com/watch?v=KKtS95o1Qlk)
+[<div align="center"><img src="http://img.youtube.com/vi/KKtS95o1Qlk/0.jpg" alt="Ravel - Gaspard La Nuit Ondine View from A Pianist" style="zoom: 33%;"/></div>](https://youtu.be/KKtS95o1Qlk)
 
 2. Ravel - Borodine
 
-[<div align="center"><img src="https://img.youtube.com/vi/a8nHeF6jmoU/0.jpg" alt="Ravel - A la maniere de Borodine, View from A Pianist" style="zoom: 33%;"/></div>](https://www.youtube.com/watch?v=a8nHeF6jmoU)
+[<div align="center"><img src="http://img.youtube.com/vi/a8nHeF6jmoU/0.jpg" alt="Ravel - A la maniere de Borodine, View from A Pianist" style="zoom: 33%;"/></div>](https://youtu.be/a8nHeF6jmoU)
 
 3. Ravel - Prelude
 
-[<div align="center"><img src="https://img.youtube.com/vi/T4iS7ZTTOto/0.jpg" alt="Ravel - Prelude, View from A Pianist" style="zoom: 33%;"/></div>](https://www.youtube.com/watch?v=T4iS7ZTTOto)
+[<div align="center"><img src="http://img.youtube.com/vi/T4iS7ZTTOto/0.jpg" alt="Ravel - Prelude, View from A Pianist" style="zoom: 33%;"/></div>](https://youtu.be/T4iS7ZTTOto)
 
 4. Ravel - Scarbo
 
-[<div align="center"><img src="https://img.youtube.com/vi/o14fPnm6_94/0.jpg" alt="Ravel - Gaspard de la nuit, Scarbo, View from A Pianist" style="zoom: 33%;"/></div>](https://www.youtube.com/watch?v=o14fPnm6_94)
+[<div align="center"><img src="http://img.youtube.com/vi/o14fPnm6_94/0.jpg" alt="Ravel - Gaspard de la nuit, Scarbo, View from A Pianist" style="zoom: 33%;"/></div>](https://youtu.be/o14fPnm6_94)
